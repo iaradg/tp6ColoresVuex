@@ -50,15 +50,12 @@
         }
         this.colorGanador=this.colors[this.pickColor()].background;
         this.$emit("obtenerGanador",this.colorGanador)
+         this.$store.dispatch('getGanador',this.colorGanador)
         
       },
      
-      //obtendo un numero rgb random para los background
-      randomInt(){
-	return Math.floor(Math.random() * 256);
-      },
     
-    //
+  
     restart(){
       this.crearColores();
     },
@@ -74,10 +71,15 @@
         }
        
       },
+        randomInt(){
+          return Math.floor(Math.random() * 256);
+        },
+
       cambiarCuadradorAlcolorGanador(colorGanador){
         this.colors.forEach(cuadrado => {
           cuadrado.background =colorGanador;
         });
+         this.$store.dispatch('getColorSquare',this.colors)
       }
 }
 }
