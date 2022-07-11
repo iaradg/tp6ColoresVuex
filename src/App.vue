@@ -1,28 +1,87 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div id="header" :style= "{background:headerColor}" >
+		<h1>The Great <br>
+			<span id="colorDisplay">{{this.pickedColor}}</span>
+			<br>
+			Guessing Game</h1>
+	</div>
+  
+<Navbar :gano="gano" @cambiarDificultad= "cambiarDificultad($event)"  :restartJuego="restart" :estaJugando="estaJugando" /> 
+ <Juego :isHard ="isHard" @evaluarGanador="evaluarGanador($event)"  
+  @obtenerGanador="obtenerGanador($event)" @obtenerRestart="obtenerRestart($event)"/>  
   </div>
+ 
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Juego from './components/JuegoColores.vue'
+import Navbar from './components/NavBar.vue'
 export default {
   name: 'App',
+  
   components: {
-    HelloWorld
+   Juego,
+   Navbar
+  
+  },
+  data(){
+  return{
+  isHard : true,
+  pickedColor : "RGB",
+  headerColor : "steelblue",
+  estaJugando :false,
+  gano : '',
+  restart : "",
+  
   }
+  },
+    methods: {
+      cambiarDificultad(dificultad){
+      this.isHard=dificultad;
+      this.estaJugando =false
+      },
+      evaluarGanador(gano){
+        this.gano=gano;
+        this.estaJugando =true;
+        if(gano==true){
+          this.headerColor= this.pickedColor;
+        }
+      },
+      obtenerGanador(cuadradoGanador){
+        this.pickedColor=cuadradoGanador;
+        this.estaJugando =false
+      },
+      obtenerRestart(restart){
+        this.restart=restart;
+        this.estaJugando =false
+      }
+    }
 }
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  background: #232323;
+	font-family: "Montserrat", "Avenir";
+  
+  
+}
+body{
+  background-color: #232323;
+  margin-top: -20px;
+  font-family: "Montserrat", "Avenir";
+  
+}
+#header {
+	transition: all 0.3s;
+	text-transform: uppercase;
+	text-align: center;
+	color: white;
+}
+h1 {
+	font-weight: normal;
+	line-height: 1.1;
+	padding: 20px 0;
 }
 </style>
